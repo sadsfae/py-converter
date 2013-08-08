@@ -1,0 +1,35 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"><title>py-convert 0.1</title>
+</head>
+<body>
+
+<form action="/post_temp_convert" method="post">
+    <p><u>Lazybones Temperature Convert<br></u>
+    <p><i>usage:</i> C or F and current temperature</p>
+    <p>
+        <select name="temptype">
+            <option value='C'>C</option>
+            <option value='F'>F</option>
+        </select>
+    </p>
+    <p><input type='text' name='temp' /></p>
+    <p><input name="send" value="dude!" type="submit" /></p>
+</form>
+
+<form action="/post_currency_convert" method="post">
+    <p><u>Ninnymuggins $$ Convert</u></p>
+    <p><i>usage:</i> CZK or USD and $ amount</p>
+    <p>
+        <select name="currencytype">
+            <option value='USD'>USD</option>
+            <option value='CZK'>CZK</option>
+        </select>
+    </p>
+    <p><input type='text' name="currencyamount" cols="10" rows="1" /></p>
+    <p><input name="send" value="sweet!" type="submit" /></p>
+</form>
+
+</form>
+</body>
+</html>
