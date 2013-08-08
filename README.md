@@ -1,7 +1,7 @@
 py-converter
 ============
 
-flask app that converts currency (CZ <-> USD) and temperature denominations.
-this was setup originally to run on Red Hat's OpenShift PaaS platform - www.openshift.com
+Flask app that converts currency (CZ <-> USD) and temperature denominations.
+This was setup originally to run on Red Hat's OpenShift PaaS platform - www.openshift.com
 
-feel free to use it here: http://converter-tocene.rhcloud.com/
+Though of arguable usefulness to anyone besides Americans in Czech Republic, feel free to use it here: http://converter-tocene.rhcloud.com/
