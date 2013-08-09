@@ -77,11 +77,11 @@ def tempconvert():
 # current conversion rate
 def czktousd(currencyamount):
     "convert czk to usd"
-    return currencyamount * 0.051
+    return (currencyamount * 0.051)
 
 def usdtoczk(currencyamount):
     "convert usd to czk"
-    return currencyamount / 19.57
+    return (currencyamount / 19.57)
 
 # take the results of currency and post them
 @app.route("/post_currency_convert", methods=["POST"])
