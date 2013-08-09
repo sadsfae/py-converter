@@ -72,7 +72,7 @@ def tempconvert():
 
 #### CZK to USD currency ####
 # 1 czk = .051 USD
-# 1 USD = 19.57 czk
+# 1 USD = 19.30 czk
 
 # current conversion rate
 def czktousd(currencyamount):
@@ -81,7 +81,7 @@ def czktousd(currencyamount):
 
 def usdtoczk(currencyamount):
     "convert usd to czk"
-    return (currencyamount / 19.57)
+    return (currencyamount * 19.30)
 
 # take the results of currency and post them
 @app.route("/post_currency_convert", methods=["POST"])
