@@ -1,6 +1,6 @@
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"><title>py-convert 0.1</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"><title>py-convert 0.2</title>
 </head>
 <body>
 
@@ -30,6 +30,20 @@
     <p><input name="send" value="sweet!" type="submit" /></p>
 </form>
 
+<form action="/post_distance_convert" method="post">
+    <p><u>Twitchy Ted's Distance Delimiter</u></p>
+    <p><i>usage:</i> m, ft, KM, Miles and distance</p>
+    <p>
+        <select name="distancetype">
+            <option value='m'>m</option>
+            <option value='ft'>ft</option>
+			<option value='KM'>M</option>
+			<option value='Miles'>Miles</option>
+        </select>
+    </p>
+    <p><input type='text' name="distanceamount" cols="10" rows="1" /></p>
+    <p><input name="send" value="bro.." type="submit" /></p>
 </form>
+
 </body>
 </html>

@@ -6,5 +6,5 @@ setup(name='py-convert',
       author='sadsfae (Will Foster)',
       author_email='bob@example.com',
       url='https://github.com/sadsfae/',
-      install_requires=['Flask>=0.7.2', 'MarkupSafe'],
+      install_requires=['Flask>=0.7.2', 'MarkupSafe', 'Flask-HTMLBuilder'],
      )
