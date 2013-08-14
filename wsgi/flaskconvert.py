@@ -138,7 +138,7 @@ def F2M(distanceamount):
     return (distanceamount / 3.28084)
 
 # convert kilometers to miles
-def L2M(distanceamount):
+def K2M(distanceamount):
 	"convert kilometers to miles"
 	return (distanceamount * 0.621371)
 
