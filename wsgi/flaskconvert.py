@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # coding=utf-8
-# py-convert 0.2
+# py-convert 0.2.1
 # https://github.com/sadsfae/
 # simple temperature, currency and distance conversion for my own selfish reasons
-# converts F <-> C and CZK <-> USD and KM/M <-> Miles/Feet
+# converts F <-> C and CZK <-> USD and KM/M <-> Miles/Feet and kg <-> lbs
 
 from flask import Flask, request, redirect, render_template, url_for
 from flaskext.htmlbuilder import html, render
@@ -53,7 +53,6 @@ def tempconvert():
                     )
             )
         ])
-    
     elif temptype == 'F':
         txt = render ([
             html.doctype('html'),
@@ -66,15 +65,15 @@ def tempconvert():
                     )
                 )
             ])
-    
     else:
         txt = 'Not valid input'
-    
     return txt
 
 #### CZK to USD currency ####
 # 1 czk = .051 USD
 # 1 USD = 19.30 czk
+# 1 kuna (HRK)= 0.18 USD
+# 1 USD = 5.68 kuna (HRK) 
 
 # current conversion rate
 def czktousd(currencyamount):
@@ -84,6 +83,14 @@ def czktousd(currencyamount):
 def usdtoczk(currencyamount):
     "convert usd to czk"
     return (currencyamount * 19.30)
+
+def hrktousd(currencyamount):
+    "convert kuna to USD"
+    return (currencyamount * 0.18)
+
+def usdtohrk(currencyamount):
+    "convert USD to kuna"
+    return (currencyamount * 5.68)
 
 # take the results of currency and post them
 @app.route("/post_currency_convert", methods=["POST"])
@@ -117,7 +124,33 @@ def currencyconvert():
                     )
                 )
             ])
-    
+
+    elif currencytype == 'HRK':
+        txt = render ([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('HRK -> USD')
+                    ),
+                html.body(
+                    str(hrktousd(currencyamount))
+                    )
+                )
+            ])
+
+    elif currencytype == 'USD-H':
+        txt = render ([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('USD -> HRK')
+                    ),
+                html.body(
+                    str(usdtohrk(currencyamount))
+                    )
+                )
+            ])
+
     else:
         txt = 'not valid input'
 
@@ -166,7 +199,6 @@ def distanceconvert():
                     )
                 )
             ])
-    
     elif distancetype == 'ft':
         txt = render ([
             html.doctype('html'),
@@ -179,7 +211,6 @@ def distanceconvert():
                     )
                 )
             ])
-    
     elif distancetype == 'KM':
 		txt = render ([
             html.doctype('html'),
@@ -192,7 +223,6 @@ def distanceconvert():
                     )
                 )
             ])
-    
     elif distancetype == 'Miles':
 		txt = render ([
             html.doctype('html'),
@@ -205,7 +235,55 @@ def distanceconvert():
                     )
                 )
             ])
-    
+    else:
+		txt = 'Not valid input'
+    return txt
+
+#### KG <-> Lbs weight conversion ####
+# 1kg = 2.20462 lbs
+# 1LB = 0.453592 kg
+
+# convert kilograms to lbs
+def K2P(weight):
+    "convert kilograms to pounds"
+    return (weight * 2.20462) 
+
+# convert lbs to kilograms
+def P2K(weight):
+    "convert pounds to kilograms"
+    return (weight * 0.453592)
+
+# take the results of temperature and post them
+@app.route("/post_weight_convert", methods=["POST"])
+def weightconvert():
+    "post input for weight"
+    masstype = request.form['masstype']
+    weight = float(request.form['weight'])
+
+    if masstype == 'kg':
+        txt = render([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('kilograms -> lbs')
+                ),
+                html.body(
+                    str(K2P(weight))
+                    )
+            )
+        ])
+    elif masstype == 'lb':
+        txt = render ([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('lbs -> kilograms')
+                    ),
+                html.body(
+                    str(P2K(weight))
+                    )
+                )
+            ])
     else:
         txt = 'Not valid input'
     
