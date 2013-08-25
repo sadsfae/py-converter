@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # coding=utf-8
-# py-convert 0.2.1
+# py-convert 0.2.2
 # https://github.com/sadsfae/
 # simple temperature, currency and distance conversion for my own selfish reasons
-# converts F <-> C and CZK <-> USD and KM/M <-> Miles/Feet and kg <-> lbs
+# converts F <-> C and CZK/EU/HRK <-> USD and KM/M <-> Miles/Feet and kg <-> lbs
 
 from flask import Flask, request, redirect, render_template, url_for
 from flaskext.htmlbuilder import html, render
@@ -69,13 +69,17 @@ def tempconvert():
         txt = 'Not valid input'
     return txt
 
-#### CZK to USD currency ####
+#### currency ####
 # 1 czk = .051 USD
 # 1 USD = 19.30 czk
 # 1 kuna (HRK)= 0.18 USD
 # 1 USD = 5.68 kuna (HRK) 
-
+# 1 USD = 0.75 EU
+# 1 EU = 1.34 USD
+# 1 EU = 25.68 CZK
+# 1 CZK = 0.039 EU
 # current conversion rate
+
 def czktousd(currencyamount):
     "convert czk to usd"
     return (currencyamount * 0.051)
@@ -92,7 +96,23 @@ def usdtohrk(currencyamount):
     "convert USD to kuna"
     return (currencyamount * 5.68)
 
-# take the results of currency and post them
+def usdtoeu(currencyamount):
+    "convert usd to eu"
+    return (currencyamount * 0.75)
+
+def eutousd(currencyamount):
+    "convert eu to usd"
+    return (currencyamount * 1.34)
+
+def czktoeu(currencyamount):
+    "convert czk to eu"
+    return (currencyamount * 0.039)
+
+def eutoczk(currencyamount):
+    "convert eu to czk"
+    return (currencyamount * 25.68)
+
+#take the results of currency and post them
 @app.route("/post_currency_convert", methods=["POST"])
 def currencyconvert():
     "post input for currency"
@@ -151,6 +171,58 @@ def currencyconvert():
                 )
             ])
 
+    elif currencytype == 'USD-E':
+        txt = render ([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('USD -> EU')
+                    ),
+                html.body(
+                    str(usdtoeu(currencyamount))
+                    )
+                )
+            ])
+
+    elif currencytype == 'E-USD':
+        txt = render ([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('EU -> USD')
+                    ),
+                html.body(
+                    str(eutousd(currencyamount))
+                    )
+                )
+            ])
+
+    elif currencytype == 'CZK-E':
+        txt = render ([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('CZK -> EU')
+                    ),
+                html.body(
+                    str(czktoeu(currencyamount))
+                    )
+                )
+            ])
+
+    elif currencytype == 'E-CZK':
+        txt = render ([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('EU -> CZK')
+                    ),
+                html.body(
+                    str(eutoczk(currencyamount))
+                    )
+                )
+            ])
+
     else:
         txt = 'not valid input'
 
@@ -172,13 +244,13 @@ def F2M(distanceamount):
 
 # convert kilometers to miles
 def K2M(distanceamount):
-	"convert kilometers to miles"
-	return (distanceamount * 0.621371)
+    "convert kilometers to miles"
+    return (distanceamount * 0.621371)
 
 # convert miles to kilometers
 def M2K(distanceamount):
-	"convert miles to kilometers"
-	return (distanceamount / 0.621371)
+    "convert miles to kilometers"
+    return (distanceamount / 0.621371)
 
 # take the results of the distance and post them
 @app.route("/post_distance_convert", methods=["POST"])
@@ -212,7 +284,7 @@ def distanceconvert():
                 )
             ])
     elif distancetype == 'KM':
-		txt = render ([
+        txt = render ([
             html.doctype('html'),
             html.html(lang='en')(
                 html.head(
@@ -224,7 +296,7 @@ def distanceconvert():
                 )
             ])
     elif distancetype == 'Miles':
-		txt = render ([
+        txt = render ([
             html.doctype('html'),
             html.html(lang='en')(
                 html.head(
@@ -236,7 +308,7 @@ def distanceconvert():
                 )
             ])
     else:
-		txt = 'Not valid input'
+        txt = 'Not valid input'
     return txt
 
 #### KG <-> Lbs weight conversion ####
