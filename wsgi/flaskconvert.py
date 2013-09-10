@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # coding=utf-8
-# py-convert 0.2.2
+# py-convert 0.2.3
 # https://github.com/sadsfae/
 # simple temperature, currency and distance conversion for my own selfish reasons
 # converts F <-> C and CZK/EU/HRK <-> USD and KM/M <-> Miles/Feet and kg <-> lbs
+# and liters/ounces/gallons between each other
 
 from flask import Flask, request, redirect, render_template, url_for
 from flaskext.htmlbuilder import html, render
@@ -23,12 +24,13 @@ def index():
 # 1°C = 1.8°F
 # °F to °C  Deduct 32, then multiply by 5, then divide by 9
 # °C to °F  Multiply by 9, then divide by 5, then add 32
-# temperature conversions
 
+# convert Celcius to Farenheit
 def C2F(temp):
     "convert celcius to farenheit"
     return (temp * 9.0) / 5.0 + 32
 
+# convert Farenheit to Celcius
 def F2C(temp):
     "convert farenheit to celcius"
     return (temp - 32) * 5.0 / 9.0
@@ -230,20 +232,23 @@ def currencyconvert():
 #### distance conversion ####
 # 1 meter = 3.28084 feet
 # 1 kilometer = 0.621371 miles
-# distance conversions
 
+# convert meters to feet
 def M2F(distanceamount):
     "convert meters to feet"
     return (distanceamount * 3.28084)
 
+# convert feet to meters
 def F2M(distanceamount):
     "convert feet to meters"
     return (distanceamount / 3.28084)
 
+# convert kilometers to miles
 def K2M(distanceamount):
     "convert kilometers to miles"
     return (distanceamount * 0.621371)
 
+# convert miles to kilometers
 def M2K(distanceamount):
     "convert miles to kilometers"
     return (distanceamount / 0.621371)
@@ -310,18 +315,19 @@ def distanceconvert():
 #### KG <-> Lbs weight conversion ####
 # 1kg = 2.20462 lbs
 # 1LB = 0.453592 kg
-# weight conversion
 
-def K2P(weight):
+# convert kilograms to lbs
+def k2p(weight):
     "convert kilograms to pounds"
     return (weight * 2.20462) 
 
-def P2K(weight):
+# convert lbs to kilograms
+def p2k(weight):
     "convert pounds to kilograms"
     return (weight * 0.453592)
 
-# take the results of weight and post them
-@app.route("/post_weight_convert", methods=["POST"])
+# take the results of temperature and post them
+@app.route("/post_weight_convert", methods=["post"])
 def weightconvert():
     "post input for weight"
     masstype = request.form['masstype']
@@ -335,7 +341,7 @@ def weightconvert():
                     html.title('kilograms -> lbs')
                 ),
                 html.body(
-                    str(K2P(weight))
+                    str(k2p(weight))
                     )
             )
         ])
@@ -347,12 +353,100 @@ def weightconvert():
                     html.title('lbs -> kilograms')
                     ),
                 html.body(
-                    str(P2K(weight))
+                    str(p2k(weight))
                     )
                 )
             ])
     else:
-        txt = 'Not valid input'
+        txt = 'not valid input'
+    
+    return txt
+
+### Liquid calculation ###
+# 1 L = 0.264172 gallons
+# 1 L = 33.814 ounces
+# 1 ounce = 0.0295735 liter
+# 1 gallon = 3.78541178 liter
+
+# convert liters to gallons
+def l2g(liquid):
+    "convert liters to gallons"
+    return (liquid * 0.264172)
+
+# convert gallons to liters
+def g2l(liquid):
+    "convert gallons to liters"
+    return (liquid * 3.78541178)
+
+# convert ounces to liters
+def o2l(liquid):
+    "convert ounces to liters"
+    return (liquid * 0.0295735)
+
+# convert liters to ounces
+def l2o(liquid):
+    "convert liters to ounces"
+    return (liquid * 33.814)
+
+# take the results of liquid and post them
+@app.route("/post_liquid_convert", methods=["post"])
+def liquidconvert():
+    "post input for liquid"
+    liquidtype = request.form['liquidtype']
+    liquid = float(request.form['liquid'])
+
+    if liquidtype == 'L':
+        txt = render([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('liters -> gallons')
+                ),
+                html.body(
+                    str(l2g(liquid))
+                    )
+            )
+        ])
+    elif liquidtype == 'G':
+        txt = render ([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('gallons -> liters')
+                    ),
+                html.body(
+                    str(g2l(liquid))
+                    )
+                )
+            ])
+    elif liquidtype == 'l':
+        txt = render ([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('liters -> ounces')
+                    ),
+                html.body(
+                    str(l2o(liquid))
+                    )
+                )
+            ]) 
+
+    elif liquidtype == 'o':
+        txt = render ([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('ounces -> liters')
+                    ),
+                html.body(
+                    str(o2l(liquid))
+                    )
+                )
+            ])   
+
+    else:
+        txt = 'not valid input'
     
     return txt
 
