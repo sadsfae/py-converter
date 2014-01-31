@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # coding=utf-8
-# py-convert 0.2.3
+# py-convert 0.2.4
 # https://github.com/sadsfae/
 # simple temperature, currency and distance conversion for my own selfish reasons
-# converts F <-> C and CZK/EU/HRK <-> USD and KM/M <-> Miles/Feet and kg <-> lbs
+# converts F <-> C and CZK/EU/HRK/BAHT <-> USD and KM/M <-> Miles/Feet and kg <-> lbs
 # and liters/ounces/gallons between each other
 
 from flask import Flask, request, redirect, render_template, url_for
@@ -79,6 +79,8 @@ def tempconvert():
 # 1 EU = 1.34 USD
 # 1 EU = 25.68 CZK
 # 1 CZK = 0.039 EU
+# 1 baht = 0.030 USD
+# 1 USD = 33.02 baht
 # current conversion rate
 
 def czktousd(currencyamount):
@@ -112,6 +114,14 @@ def czktoeu(currencyamount):
 def eutoczk(currencyamount):
     "convert eu to czk"
     return (currencyamount * 25.68)
+
+def bhtousd(currencyamount):
+    "convert baht to usd"
+    return (currencyamount * 0.030)
+
+def usdtobh(currencyamount):
+    "convert usd to baht"
+    return (currencyamount * 33.02)
 
 #take the results of currency and post them
 @app.route("/post_currency_convert", methods=["POST"])
@@ -220,6 +230,32 @@ def currencyconvert():
                     ),
                 html.body(
                     str(eutoczk(currencyamount))
+                    )
+                )
+            ])
+
+    elif currencytype == 'B-USD':
+        txt = render ([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('BAHT -> USD')
+                    ),
+                html.body(
+                    str(bhtousd(currencyamount))
+                    )
+                )
+            ])
+
+    elif currencytype == 'USD-B':
+        txt = render ([
+            html.doctype('html'),
+            html.html(lang='en')(
+                html.head(
+                    html.title('BAHT -> USD')
+                    ),
+                html.body(
+                    str(usdtobh(currencyamount))
                     )
                 )
             ])
@@ -451,4 +487,4 @@ def liquidconvert():
     return txt
 
 if __name__ == '__main__':
-    app.run
+    app.run(debug=True)

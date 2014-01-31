@@ -19,7 +19,7 @@
 
 <form action="/post_currency_convert" method="post">
     <p><u>Nasty Ned's Money Changer</u></p>
-    <p><i>usage:</i> CZK, HRK EU or USD and $ amount</p>
+    <p><i>usage:</i> CZK, HRK EU BAHT or USD and $ amount</p>
     <p>
         <select name="currencytype">
             <option value='USD'>USD to CZK</option>
@@ -30,6 +30,8 @@
 	    <option value='E-USD'>EU to USD</option>
 	    <option value='E-CZK'>EU to CZK</option>
 	    <option value='CZK-E'>CZK to EU</option>
+            <option value='B-USD'>BAHT to USD</option>
+	    <option value='USD-B'>USD to BAHT</option>
     </select>
     </p>
     <p><input type='text' name="currencyamount" cols="10" rows="1" /></p>
